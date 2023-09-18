@@ -1,0 +1,16 @@
+---
+- name: Cisco Switch port config
+  connection: network_cli
+  gather_facts:
+  hosts: Cisco_Switches
+
+  tasks: 
+    - name: Merge provided configuration with device configuration
+      cisco.ios.ios_l2_interfaces:
+        config:
+        - name: GigabitEthernet0/22
+          mode: trunk
+          trunk:
+            allowed_vlans: 10-20
+        state: merged
+

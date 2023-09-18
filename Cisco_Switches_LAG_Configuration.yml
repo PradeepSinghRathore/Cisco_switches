@@ -1,0 +1,19 @@
+---
+- name: Cisco Switch port config
+  connection: network_cli
+  gather_facts:
+  hosts: Cisco_Switches
+
+  tasks:
+    - name: Merge provided configuration with device configuration
+      cisco.ios.ios_lag_interfaces:
+        config:
+        - name: Port-channel5
+          members:
+          - member: GigabitEthernet0/10
+            mode: auto
+          - member: GigabitEthernet0/11
+            mode: auto
+        state: merged
+
+    

@@ -1,0 +1,29 @@
+#ansible-playbook -i inventory.yml ios-show-ver.yml
+---
+- name:  facts
+  connection: network_cli
+  gather_facts: 
+  hosts: Cisco_Switches
+
+  tasks:
+    - name: show int
+      register: result
+      ios_command:
+        commands:
+          - command: show interfaces
+    
+    - name: show run
+      register: result
+      ios_command:
+              commands:  
+              - command: show running-config  
+    
+    - name: configure hostname and domain name
+      ios_system:
+        hostname: LAB_Demo_Switch_01
+
+    - name: print result
+      debug:
+        var: result.stdout_lines
+
+

@@ -1,0 +1,13 @@
+---
+- name: Cisco Switch port config
+  connection: network_cli
+  gather_facts:
+  hosts: Cisco_Switches
+
+  tasks: 
+    - name: Run multiple commands
+      cisco.ios.ios_command:
+        commands:
+        - configure terminal
+        - interface GigabitEthernet0/20
+        - switchport trunk allowed vlan 10-20  

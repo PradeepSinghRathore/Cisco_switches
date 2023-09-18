@@ -1,0 +1,32 @@
+#ansible-playbook -i inventory.yml ios-show-ver.yml
+---
+- name:  facts
+  connection: network_cli
+  gather_facts: 
+  hosts: Cisco_Switches
+
+  tasks:
+    - name: show int
+      register: result
+      ios_command:
+        commands:
+          - command: show interfaces
+    
+    - name: show run
+      register: result
+      ios_command:
+              commands:  
+              - command: show running-config  
+
+    - name: create a new user
+      ios_user:
+              name: pradeep
+              configured_password: Hitachi@123
+              update_password: always
+              state: present
+
+    - name: print result
+      debug:
+        var: result.stdout_lines
+
+

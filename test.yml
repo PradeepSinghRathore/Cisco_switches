@@ -1,0 +1,13 @@
+---
+- name: backup  
+  hosts: localhost
+  connection: network_cli
+  tasks:
+    - name: current path
+      command: pwd
+      register: pwd
+
+    - name: debug
+      debug: 
+        var: pwd
+

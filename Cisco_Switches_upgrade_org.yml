@@ -1,0 +1,102 @@
+---
+# Ansible Playbook to upgrade Cisco IOS 
+- name: Upgrade CISCO IOS
+  connection: ansible.netcommon.network_cli 
+  hosts: Cisco_Switches
+  vars: 
+    upgrade_ios_version: 12.2(55)SE12
+  tasks:
+    - name: CHECK CURRENT VERSION
+      ios_facts:
+    - debug: 
+        msg: 
+        - "Current version is {{ ansible_net_version }}"
+        - "Upgrade image is 12.2.55-SE12"
+    - debug: 
+        msg: 
+        - "Image is not compliant and will be upgraded"
+      when: ansible_net_version != upgrade_ios_version
+
+    - name: Get ansible date/time facts
+      setup:
+        filter: "ansible_date_time"
+        gather_subset: "!all"
+
+#    - name: Store DTG as fact
+#      set_fact:
+#        DTG: "{{ ansible_date_time.date }}"
+
+    - name: Create Directory 
+      file:
+        path: "/backup/Cisco_Switches{{ansible_date_time.date}}"
+        state: directory
+  
+    - name: show run
+      register: result
+      ios_command:
+              commands:
+              - command: show running-config
+
+    - name: Save output to /backup/
+      copy:
+        content: "{{ result }}"
+        dest: "/backup/Cisco_Switches{{ansible_date_time.epoch}}config.txt"      
+
+    - name: Save running config
+      ios_config:
+        save_when: always
+
+    - name: Copy Image // This could take up to 4 minutes
+      net_put: 
+        src: "/backup/c2960-lanbasek9-mz.122-55.SE12.bin"
+        protocol: scp
+        dest: "flash:/c2960-lanbasek9-mz.122-55.SE12.bin"
+      vars:
+        ansible_command_timeout: 600
+  
+    - name: Change Boot Variable to new image 
+      ios_config:
+        commands:
+          - "boot system flash:c2960-lanbasek9-mz.122-55.SE12.bin"
+        save_when: always
+
+    - name: Reload the Device 
+      cli_command:
+        command: reload
+        prompt:
+          - confirm
+        answer:
+          - 'y'    
+
+    - name: Wait for device to come back online
+      wait_for:
+        host: 192.168.100.253
+        port: 22
+        delay: 90
+        timeout: 600
+      delegate_to: localhost       
+
+    - name: Check Image Version      
+      ios_facts:
+ 
+    - debug:
+        msg:
+        - "Current version is {{ ansible_net_version }}"
+ 
+    - name: ASSERT THAT THE IOS VERSION IS CORRECT
+    
+      vars:
+        upgrade_ios_version: 12.2(55)SE12
+ 
+      assert:
+        that:
+          - upgrade_ios_version == ansible_net_version
+    - debug:
+        msg:
+        - "Software Upgrade has been completed"
+
+
+
+
+
+

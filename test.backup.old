@@ -1,0 +1,19 @@
+---
+- hosts: Cisco_Switches
+  gather_facts: 
+  connection: network_cli
+
+  tasks:
+   - name: show run 
+     ios_command:
+       commands: show run
+     register: config
+
+   - name: save output to /etc/ansible/backups 
+     copy: 
+       content: "{{ config.stdout[0] }}"
+       dest: "show_run_{{ inventory_hostname }}.txt"
+
+   - name: debug
+     debug: 
+       var: config    

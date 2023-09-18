@@ -1,0 +1,36 @@
+#ansible-playbook -i inventory.yml ios-show-ver.yml
+---
+- name:  facts
+  connection: network_cli
+  gather_facts: 
+  hosts: Cisco_Switches
+
+  tasks:
+    - name: Get current date
+      local_action: command date +%Y-%b-%d
+      register: date
+
+    - name: Get current time
+      local_action: command date +%H:%M
+      register: time
+      
+    - name: Run multiple commands
+      cisco.ios.ios_command:
+        commands:
+        - show interfaces
+        - show running-config
+        - show ip interface brief
+      register: result
+
+
+    - name: Print output to file
+      ansible.builtin.copy:
+        content: "{{result.stdout}}"
+        dest: /backup/Cisco_Switches_monitor_output/{{ date.stdout }}_at_{{ time.stdout }}_{{ inventory_hostname }}
+      delegate_to: localhost 
+
+    - name: print result
+      debug:
+        var: result.stdout_lines
+
+

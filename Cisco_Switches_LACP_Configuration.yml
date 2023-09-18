@@ -1,0 +1,21 @@
+---
+- name: Cisco Switch port config
+  connection: network_cli
+  gather_facts:
+  hosts: Cisco_Switches
+
+  tasks:
+    - name: Merge provided configuration with device configuration
+      cisco.ios.ios_lacp_interfaces:
+        config:
+        - name: GigabitEthernet0/15
+          port_priority: 10
+        - name: GigabitEthernet0/16
+          port_priority: 20
+        - name: GigabitEthernet0/17
+          port_priority: 30
+        - name: Port-channel10
+          fast_switchover: true
+          max_bundle: 5
+        state: merged 
+    

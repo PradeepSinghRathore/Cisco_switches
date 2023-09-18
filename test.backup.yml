@@ -1,0 +1,15 @@
+---
+- hosts: Cisco_Switches
+  gather_facts: 
+  connection: network_cli
+
+  tasks:
+    - name: backup the config
+      ios_config:
+        backup: yes
+      register: backup_config
+    
+    - name: Store the config to directory
+      copy:
+        src: "{{ backup_config.backup_path }}"
+        dest: "/PR/backup.txt"

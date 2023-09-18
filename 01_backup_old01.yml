@@ -1,0 +1,33 @@
+
+---
+
+- name: Backup Cisco Router or Switch
+  connection: network_cli
+  hosts: network
+  vars: 
+    ansible_user: manager
+    ansible_password: Manager@123
+  gather_facts: 
+
+  tasks:
+    - name: backup cisco ios configuration
+      cisco.ios.config:
+        backup: true
+        backup_options:
+          dir_path: /tmp/
+          filename: backup.txt
+      register: config_output
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: /backup/
+        state: directory
+      become: true
+      run_once: true
+    - name: save configuration to backup server
+      copy:
+        src: "{{ config_output.backup_path }}"
+        dest: "/backup/"
+      when: config_output is defined
+      become: true
+    
+

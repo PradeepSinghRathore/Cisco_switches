@@ -1,0 +1,13 @@
+tasks: - name: Merge Provided configuration with configuration device
+cisco.ios.ios_l2_interfaces:
+ config:
+ - name: GigabitEthernet0/3
+ mode: access
+ access:
+ vlan: 10
+- name: GigabitEthernet0/4
+ mode: trunk
+ trunk:
+ allowed_vlans: 10-20,40
+ native_vlan: 20
+ pruning_vlans: 10,20

@@ -1,0 +1,13 @@
+---
+- name: Cisco Switch port config
+  connection: network_cli
+  gather_facts:
+  hosts: Cisco_Switches
+
+  tasks: 
+    - name: Configure the login banner
+      cisco.ios.ios_banner:
+        banner: login
+        text: |
+          This Switch is Cisco 2960 for Ansiable automation platform testing 
+        state: present

@@ -1,0 +1,27 @@
+---
+- name: Cisco Router Port Configuration
+  connection: network_cli
+  gather_facts:
+  hosts: Cisco_Switches
+
+  tasks:
+    - name: show int
+      ios_command:
+        commands:
+        - command: show interfaces
+      register: result
+
+    - name: show run
+      ios_command: 
+        commands: 
+        - command: show running-config 
+      register: result
+
+    - name: Port GigabitEthernet0/6 configuration      
+      cisco.ios.ios_l2_interfaces:
+        config:
+        - name: GigabitEthernet0/6
+          mode: trunk
+          trunk:   
+            allowed_vlans: 20-30
+        state: replaced 

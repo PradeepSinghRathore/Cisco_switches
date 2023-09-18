@@ -1,0 +1,18 @@
+---
+- name: Cisco Switch port config
+  connection: network_cli
+  gather_facts:
+  hosts: Cisco_Switches
+
+  tasks: 
+    - name: Run multiple commands
+      cisco.ios.ios_command:
+        commands:
+        - configure terminal
+        - interface port-channel 5
+        - switchport mode trunk
+        - switchport trunk allowed vlan all
+        - interface gigabitEthernet 0/10
+        - channel-group 5 mode active
+        - interface gigabitEthernet 0/12
+        - channel-group 5 mode active

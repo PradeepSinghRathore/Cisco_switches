@@ -1,0 +1,19 @@
+---
+- name: Cisco Switch port config
+  connection: network_cli
+  gather_facts:
+  hosts: Cisco_Switches
+
+  tasks:
+    - name: Set link aggregation group to members
+      cisco.ios.ios_linkagg:
+        group: 200
+        mode: active
+        members:
+        - GigabitEthernet0/6
+        - GigabitEthernet0/7
+    - name: Create aggregate of linkagg definitions
+      cisco.ios.ios_linkagg:
+        aggregate:
+        - {group: 3, mode: on, members: [GigabitEthernet0/8]}
+        - {group: 100, mode: passive, members: [GigabitEthernet0/9]}

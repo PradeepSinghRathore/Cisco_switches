@@ -1,0 +1,33 @@
+#ansible-playbook -i inventory.yml ios-show-ver.yml
+---
+- name:  facts
+  connection: network_cli
+  gather_facts: 
+  hosts: Cisco_Switches
+
+  tasks:
+    - name: show int
+      register: result
+      ios_command:
+        commands:
+          - command: show interfaces
+    
+    - name: show run
+      register: result
+      ios_command:
+              commands:  
+              - command: show running-config  
+
+    - name: Ensure GigabitEthernet0/5 only has vlans 5-10 as trunk vlans
+      ios_l2_interfaces:
+        config:
+                - name: GigabitEthernet0/5
+                  mode: trunk
+                  trunk:
+                    allowed_vlans: 5-10
+
+    - name: print result
+      debug:
+        var: result.stdout_lines
+
+

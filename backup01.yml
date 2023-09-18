@@ -1,0 +1,21 @@
+---
+- name:  facts
+  connection: network_cli
+  gather_facts: false
+  hosts: Cisco_Switches
+
+  tasks:
+    - name: backup job
+      cisco.ios.config:
+        backup: true
+        backup_options:
+          dir_path: /backup
+          filename: "{{ inventory_hostname }}.txt"
+      register: config_output
+
+    - name: copy
+      copy: 
+        src: "{{ config_output.backup_path }}"
+        dest: "/backup01/output1.txt"
+      delegate_to: Linux_Host
+      become: true

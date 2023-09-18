@@ -1,0 +1,13 @@
+- hosts: Cisco_Switches
+  gather_facts: no
+  connection: network_cli
+  become: no
+  tasks:
+    - name: Backup current switch config (ios)
+      ios_config:
+        backup: yes
+      register: backup_ios_location
+      when: ansible_network_os == 'ios'
+    - name: Display Result
+      debug:
+        var: backup_ios_location

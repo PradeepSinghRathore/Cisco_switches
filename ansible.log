@@ -1,0 +1,29 @@
+2023-03-16 17:07:45,115 p=175958 u=root n=ansible | ansible-playbook [core 2.14.2]
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/root/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3.9/site-packages/ansible
+  ansible collection location = /root/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/bin/ansible-playbook
+  python version = 3.9.13 (main, Nov  9 2022, 13:16:24) [GCC 8.5.0 20210514 (Red Hat 8.5.0-15)] (/usr/bin/python3.9)
+  jinja version = 3.1.2
+  libyaml = True
+2023-03-16 17:07:45,116 p=175958 u=root n=ansible | Using /etc/ansible/ansible.cfg as config file
+2023-03-16 17:07:45,117 p=175958 u=root n=ansible | setting up inventory plugins
+2023-03-16 17:07:45,135 p=175958 u=root n=ansible | host_list declined parsing /etc/ansible/hosts as it did not pass its verify_file() method
+2023-03-16 17:07:45,145 p=175958 u=root n=ansible | script declined parsing /etc/ansible/hosts as it did not pass its verify_file() method
+2023-03-16 17:07:45,145 p=175958 u=root n=ansible | auto declined parsing /etc/ansible/hosts as it did not pass its verify_file() method
+2023-03-16 17:07:45,174 p=175958 u=root n=ansible | Parsed /etc/ansible/hosts inventory source with ini plugin
+2023-03-16 17:07:45,186 p=175958 u=root n=ansible | [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+2023-03-16 17:07:45,316 p=175958 u=root n=ansible | Loading collection cisco.ios from /root/.ansible/collections/ansible_collections/cisco/ios
+2023-03-16 17:07:45,325 p=175958 u=root n=ansible | Loading callback plugin default of type stdout, v2.0 from /usr/lib/python3.9/site-packages/ansible/plugins/callback/default.py
+2023-03-16 17:07:45,344 p=175958 u=root n=ansible | Skipping callback 'default', as we already have a stdout callback.
+2023-03-16 17:07:45,344 p=175958 u=root n=ansible | Skipping callback 'minimal', as we already have a stdout callback.
+2023-03-16 17:07:45,345 p=175958 u=root n=ansible | Skipping callback 'oneline', as we already have a stdout callback.
+2023-03-16 17:07:45,345 p=175958 u=root n=ansible | PLAYBOOK: Cisco_Switches_Port_Configuration.yml ************************************************************************************************************************
+2023-03-16 17:07:45,345 p=175958 u=root n=ansible | 1 plays in Cisco_Switches_Port_Configuration.yml
+2023-03-16 17:07:45,346 p=175958 u=root n=ansible | [WARNING]: Could not match supplied host pattern, ignoring: Cisco_Switches
+
+2023-03-16 17:07:45,347 p=175958 u=root n=ansible | PLAY [Cisco Switch port config] ****************************************************************************************************************************************
+2023-03-16 17:07:45,348 p=175958 u=root n=ansible | skipping: no hosts matched
+2023-03-16 17:07:45,348 p=175958 u=root n=ansible | PLAY RECAP *************************************************************************************************************************************************************
